@@ -7,13 +7,19 @@ import java.util.stream.Collectors;
 
 public class Deck {
     private static final int MIN_SHUFFLE_ITERATIONS = 3;
-    private SecureRandom random = new SecureRandom();
+    private Random random;
 
     private List<Card> deck;
 
     private int freshDeckHash;
 
     public Deck() {
+        this.random = new SecureRandom();
+        reset();
+    }
+
+    public Deck(Random random) {
+        this.random = random;
         reset();
     }
 

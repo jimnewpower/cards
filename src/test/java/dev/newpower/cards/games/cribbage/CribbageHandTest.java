@@ -1,10 +1,15 @@
 package dev.newpower.cards.games.cribbage;
 
 import dev.newpower.cards.model.Card;
+import dev.newpower.cards.model.Deck;
 import dev.newpower.cards.util.CardBuilder;
 import org.junit.jupiter.api.Test;
 
+import java.security.SecureRandom;
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CribbageHandTest {
 
@@ -18,6 +23,70 @@ class CribbageHandTest {
 //            System.out.println(hand.generateUnitTest());
 //        }
 //    }
+
+    @Test
+    public void testNullHand() {
+        assertThrows(NullPointerException.class, () -> new CribbageHand(null, CardBuilder.of("AH")));
+    }
+
+    @Test
+    public void testNullStarter() {
+        Card[] hand = new Card[] {
+                CardBuilder.of("5D"),
+                CardBuilder.of("TH"),
+                CardBuilder.of("TD"),
+                CardBuilder.of("5C")
+        };
+        assertThrows(NullPointerException.class, () -> new CribbageHand(hand, null));
+    }
+
+    @Test
+    public void testWrongSizeHandTooFew() {
+        Card[] hand = new Card[] {
+                CardBuilder.of("5D"),
+                CardBuilder.of("TH"),
+                CardBuilder.of("5C")
+        };
+        Card starter = CardBuilder.of("AC");
+        assertThrows(IllegalArgumentException.class, () -> new CribbageHand(hand, starter));
+    }
+
+    @Test
+    public void testWrongSizeHandTooMany() {
+        Card[] hand = new Card[] {
+                CardBuilder.of("AD"),
+                CardBuilder.of("2H"),
+                CardBuilder.of("3C"),
+                CardBuilder.of("4C"),
+                CardBuilder.of("5C"),
+        };
+        Card starter = CardBuilder.of("6D");
+        assertThrows(IllegalArgumentException.class, () -> new CribbageHand(hand, starter));
+    }
+
+    @Test
+    public void testDealFromTop() {
+        Deck deck = new Deck();
+        Random random = new Random(1L);
+        CribbageHand hand = CribbageHand.dealFromTop(deck, random);
+        assertEquals("CribbageHand{hand=[KING of SPADES, QUEEN of SPADES, JACK of SPADES, TEN of SPADES], starter=NINE of CLUBS} score=9", hand.toString());
+
+        deck = new Deck();
+        random = new Random(97L);
+        hand = CribbageHand.dealFromTop(deck, random);
+        assertEquals("CribbageHand{hand=[KING of SPADES, QUEEN of SPADES, JACK of SPADES, TEN of SPADES], starter=TEN of HEARTS} score=14", hand.toString());
+    }
+
+    @Test
+    public void testDealRandom() {
+        Random random = new Random(1L);
+        CribbageHand hand = CribbageHand.dealRandom(random);
+        assertEquals("CribbageHand{hand=[ACE of CLUBS, FIVE of DIAMONDS, NINE of SPADES, JACK of SPADES], starter=KING of HEARTS} score=6", hand.toString());
+
+        random = new Random(97L);
+        hand = CribbageHand.dealRandom(random);
+        assertEquals("CribbageHand{hand=[QUEEN of HEARTS, THREE of DIAMONDS, TEN of CLUBS, EIGHT of CLUBS], starter=THREE of CLUBS} score=2", hand.toString());
+    }
 
     @Test
     public void test29() {

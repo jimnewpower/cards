@@ -12,28 +12,65 @@ import java.util.*;
 
 public class CribbageHand {
 
-    public static CribbageHand deal(Deck deck) {
+    /**
+     * Construct a cribbage hand by dealing from the top of a deck.
+     *
+     * @param deck the deck from which to deal.
+     * @param random randomizer for the cut (starter) card.
+     * @return
+     */
+    public static CribbageHand dealFromTop(Deck deck, Random random) {
+        List<Card> cards = new ArrayList<>(deck.getDeck());
+        Card[] hand = new Card[4];
+        for (int i = 0; i < 4; i++) {
+            hand[i] = cards.remove(0);
+        }
+        Card starter = cards.get(cards.size() / 2 + getRandomCutIndex(cards, random));
+        return new CribbageHand(hand, starter);
+    }
+
+    /**
+     * Construct a random cribbage hand by dealing from a deck.
+     *
+     * @param deck the deck from which to deal.
+     * @param random the randomizer.
+     * @return
+     */
+    public static CribbageHand dealRandom(Random random) {
+        Deck deck = new Deck(random);
         LinkedList<Card> shuffled = deck.shuffle();
-        List<Card> list = new ArrayList<>(deck.getDeck());
+        List<Card> cards = new ArrayList<>(deck.getDeck());
         Card[] hand = new Card[4];
         for (int i = 0; i < 4; i++) {
             hand[i] = shuffled.poll();
-            list.remove(hand[i]);
+            cards.remove(hand[i]);
         }
-
-        SecureRandom random = new SecureRandom();
-        int randomHalf = list.size() / 2;
-        int randomOffset = random.nextInt(0, randomHalf - 2);
-        randomOffset = random.nextBoolean() ? -randomOffset : randomOffset;
-        Card starter = list.get(randomHalf + randomOffset);
-
+        Card starter = cards.get(cards.size() / 2 + getRandomCutIndex(cards, random));
         return new CribbageHand(hand, starter);
+    }
+
+    private static int getRandomCutIndex(List<Card> cards, Random random) {
+        int half = cards.size() / 2;
+        int randomOffset = random.nextInt(0, half - 2);
+        randomOffset = random.nextBoolean() ? -randomOffset : randomOffset;
+        return randomOffset;
     }
 
     private final Card[] hand;
     private final Card starter;
 
+    /**
+     * Construct a 5-card cribbage hand.
+     *
+     * @param hand 4-element array that represents a player's hand.
+     * @param starter starter (cut) card.
+     */
     public CribbageHand(Card[] hand, Card starter) {
+        Objects.requireNonNull(hand, "hand cannot be null");
+        Objects.requireNonNull(starter, "Starter card cannot be null");
+        if (hand.length != 4) {
+            throw new IllegalArgumentException("hand length must be 4");
+        }
         this.hand = Arrays.copyOf(hand, 4);
         this.starter = starter;
     }
