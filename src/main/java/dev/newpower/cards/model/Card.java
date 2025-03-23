@@ -52,5 +52,9 @@ public class Card {
     public int hashCode() {
         return Objects.hash(rank, suit);
     }
+
+    public String getShorthand() {
+        return "" + rank.getChar() + suit.getChar();
+    }
 }
 

@@ -68,9 +68,6 @@ public class ShuffleView extends JFrame {
     }
 
     private class Panel extends JPanel {
-        private static final double BOARD_CARD_WIDTH_FRACTION = 0.05;
-        private static final int BOARD_CARD_SPACING = 4;
-
         private Images images = new Images();
         private BufferedImage backgroundImage;
 
@@ -127,7 +124,7 @@ public class ShuffleView extends JFrame {
         }
 
         private void drawCards(Graphics g) {
-            int midX = this.getWidth() / 2 - BOARD_CARD_SPACING * 4;
+            int midX = this.getWidth() / 2 - Constants.BOARD_CARD_SPACING * 4;
             int midY = this.getHeight() / 2;
             Dimension boardCardDimension = getBoardCardDimension();
             int cardWidth = boardCardDimension.width;
@@ -156,7 +153,7 @@ public class ShuffleView extends JFrame {
             int buffer = 4;
             int buffer2 = buffer * 2;
             int labelX = (int)(midX - rect.getWidth() / 2);
-            int labelY = y + cardHeight + BOARD_CARD_SPACING * 3;
+            int labelY = y + cardHeight + Constants.BOARD_CARD_SPACING * 3;
             g.drawString(stats, labelX, labelY + fontMetrics.getAscent());
 
             // Show hash
@@ -187,7 +184,7 @@ public class ShuffleView extends JFrame {
         }
 
         private Dimension getBoardCardDimension() {
-            double cardWidth = this.getWidth() * BOARD_CARD_WIDTH_FRACTION;
+            double cardWidth = this.getWidth() * Constants.BOARD_CARD_WIDTH_FRACTION;
             double cardHeight = cardWidth / Constants.CARD_RATIO;
             return new Dimension((int) Math.round(cardWidth), (int) Math.round(cardHeight));
         }

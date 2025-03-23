@@ -1,7 +1,6 @@
 package dev.newpower.cards.model;
 
 public enum Rank {
-    ACE("Ace", 'A', 14),
     KING("King", 'K', 13),
     QUEEN("Queen", 'Q', 12),
     JACK("Jack", 'J', 11),
@@ -13,7 +12,8 @@ public enum Rank {
     FIVE("5", '5', 5),
     FOUR("4", '4', 4),
     THREE("3", '3',3),
-    TWO("2", '2', 2);
+    TWO("2", '2', 2),
+    ACE("Ace", 'A', 1);
 
     private String rank;
     private char c;
@@ -38,11 +38,8 @@ public enum Rank {
     }
 
     public static Rank fromInt(int rank) {
-        if (rank < 1 || rank > 14) {
+        if (rank < 1 || rank > 13) {
             return null;
-        }
-        if (rank == 1) {
-            return Rank.ACE;
         }
         for (Rank r : Rank.values()) {
             if (r.getRankNumeric() == rank) {
