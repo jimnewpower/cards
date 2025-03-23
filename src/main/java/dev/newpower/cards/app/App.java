@@ -15,8 +15,8 @@ public class App
         SwingUtilities.invokeLater(() -> {
             JButton riffle = new JButton("Riffle");
             JButton cut = new JButton("Cut");
-            JButton shuffle = new JButton("Simple Shuffle");
-            JButton fullShuffle = new JButton("Full Shuffle");
+            JButton shuffle = new JButton("Fisher-Yates Shuffle");
+            JButton fullShuffle = new JButton("Multi-Combo Shuffle");
             JButton reset = new JButton("Reset");
             ShuffleView view = new ShuffleView(riffle, cut, shuffle, fullShuffle, reset);
             riffle.addActionListener(e1 -> view.riffle());
