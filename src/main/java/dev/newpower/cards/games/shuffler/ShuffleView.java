@@ -1,4 +1,4 @@
-package dev.newpower.cards.controller;
+package dev.newpower.cards.games.shuffler;
 
 import dev.newpower.cards.model.Card;
 import dev.newpower.cards.model.Constants;

@@ -1,6 +1,7 @@
 package dev.newpower.cards.app;
 
-import dev.newpower.cards.controller.ShuffleView;
+import dev.newpower.cards.games.MainView;
+import dev.newpower.cards.games.shuffler.ShuffleView;
 
 import javax.swing.*;
 
@@ -13,17 +14,11 @@ public class App
     public static void main( String[] args )
     {
         SwingUtilities.invokeLater(() -> {
-            JButton riffle = new JButton("Riffle");
-            JButton cut = new JButton("Cut");
-            JButton shuffle = new JButton("Fisher-Yates Shuffle");
-            JButton fullShuffle = new JButton("Multi-Combo Shuffle");
-            JButton reset = new JButton("Reset");
-            ShuffleView view = new ShuffleView(riffle, cut, shuffle, fullShuffle, reset);
-            riffle.addActionListener(e1 -> view.riffle());
-            cut.addActionListener(e1 -> view.cut());
-            shuffle.addActionListener(e1 -> view.shuffleSimple());
-            fullShuffle.addActionListener(e1 -> view.shuffle());
-            reset.addActionListener(e1 -> view.resetDeck());
+            MainView mainView = new MainView();
+            mainView.setTitle("Shuffle");
+            mainView.setSize(600, 360);
+            mainView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            mainView.setVisible(true);
         });
     }
 }
