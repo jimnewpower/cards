@@ -18,18 +18,19 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 public class GameView extends JFrame {
     private final Panel panel;
 
-    public GameView() {
+    public GameView(Random random) {
         setLayout(new BorderLayout());
         setTitle("Cribbage Squares");
         setSize(600, 800);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setIconImage(new ImageIcon(getClass().getResource("/images/png/poker_chip_100.png")).getImage());
 
-        this.panel = new Panel();
+        this.panel = new Panel(random);
         add(panel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel();
@@ -78,8 +79,8 @@ public class GameView extends JFrame {
         private int[] rowScores;
         private int[] columnScores;
 
-        Panel() {
-            deck = new Deck();
+        Panel(Random random) {
+            deck = new Deck(random);
 
             try {
                 backgroundImage = ImageIO.read(getClass().getResource("/images/png/poker_felt.png"));
@@ -117,6 +118,11 @@ public class GameView extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
 
+            Graphics2D g2d = (Graphics2D) g;
+
+            // Enable anti-aliasing for smoother text and shapes
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
             drawTableBackground(g);
 
             drawDeck(g);
@@ -140,6 +146,9 @@ public class GameView extends JFrame {
             FontMetrics metrics = g.getFontMetrics(getFont());
             int totalScore = 0;
 
+            Font orig = getFont();
+            g.setFont(orig.deriveFont(18f));
+
             for (int i = 0; i < 4; i++) {
                 int xx = x + (4 * (cardWidth + Constants.BOARD_CARD_SPACING * 2));
                 int yy = y + (i * (cardHeight + Constants.BOARD_CARD_SPACING * 2));
@@ -162,13 +171,13 @@ public class GameView extends JFrame {
                 g.drawString(score, xx + cardWidth / 2 - metrics.stringWidth(score) / 2, yy + 14);
             }
 
-            Font orig = getFont();
-            g.setFont(orig.deriveFont(18f));
+            g.setFont(orig.deriveFont(Font.BOLD, 24f));
             g.setColor(Color.white);
             String score = String.valueOf(totalScore);
             int xx = x + (4 * (cardWidth + Constants.BOARD_CARD_SPACING * 2));
             int yy = y + (4 * (cardHeight + Constants.BOARD_CARD_SPACING * 2));
-            g.drawString(score, xx + 12 - metrics.stringWidth(score) / 2, yy + 14);
+            int buffer = 18;
+            g.drawString(score, xx + buffer - metrics.stringWidth(score) / 2, yy + buffer);
             g.setFont(orig);
         }
 

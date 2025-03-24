@@ -9,34 +9,10 @@ import java.util.Random;
 
 public class CribbageSimulator {
 
-    int min;
-    int max;
-    double mean;
-    int mode;
-    long count;
-    Map<Integer, Long> modeMap;
+    private Stats stats;
+    private Map<Integer, Long> modeMap;
 
     public CribbageSimulator() {
-    }
-
-    public int getMin() {
-        return min;
-    }
-
-    public int getMax() {
-        return max;
-    }
-
-    public double getMean() {
-        return mean;
-    }
-
-    public int getMode() {
-        return mode;
-    }
-
-    public long getCount() {
-        return count;
     }
 
     public Map<Integer, Long> getModeMap() {
@@ -44,10 +20,10 @@ public class CribbageSimulator {
     }
 
     public void run(long nSimulations, Random random) {
-        min = 30;
-        max = 0;
+        int min = 30;
+        int max = 0;
         modeMap = new HashMap<>();
-        count = 0L;
+        long count = 0L;
 
         long scoreTotal = 0L;
 
@@ -73,8 +49,15 @@ public class CribbageSimulator {
             ++count;
         }
 
-        mean = scoreTotal / (double) count;
+        stats = new Stats();
+        stats.setCount(count);
+        stats.setMin(min);
+        stats.setMax(max);
 
+        double mean = scoreTotal / (double) count;
+        stats.setMean(mean);
+
+        int mode = -1;
         long most = 0L;
         for (Integer score : modeMap.keySet()) {
             if (modeMap.get(score).longValue() > most) {
@@ -82,15 +65,16 @@ public class CribbageSimulator {
                 mode = score.intValue();
             }
         }
+        stats.setMode(mode);
     }
 
     public void printStats() {
         System.out.println("Cribbage Simulation:");
-        System.out.println("count : " + NumberFormat.getInstance().format(count));
-        System.out.println("min   : " + getMin());
-        System.out.println("max   : " + getMax());
-        System.out.println("mean  : " + getMean());
-        System.out.println("mode  : " + getMode());
+        System.out.println("count : " + NumberFormat.getInstance().format(stats.getCount()));
+        System.out.println("min   : " + stats.getMin());
+        System.out.println("max   : " + stats.getMax());
+        System.out.println("mean  : " + stats.getMean());
+        System.out.println("mode  : " + stats.getMode());
 //        modeMap.forEach((key, value) -> System.out.println("Score: " + key + ", Count: " + value));
     }
 
@@ -108,10 +92,10 @@ public class CribbageSimulator {
 //            String bar = "=".repeat((int) value); // Cast to int if values are small
 //            System.out.printf("Score %2d (%4d): %s%n", key, value, bar);
 
-            double percent = frequency / (double) count * 100.0;
+            double percent = frequency / (double) stats.getCount() * 100.0;
 
             // Calculate "1 in N" (avoid division by zero)
-            double chances = frequency > 0 ? (double) count / frequency : Double.POSITIVE_INFINITY;
+            double chances = frequency > 0 ? (double) stats.getCount() / frequency : Double.POSITIVE_INFINITY;
             String oneInN = String.format("1 in %11.2f %s", chances, "hands");
             System.out.printf("  %2d : %10s %7.2f%%  (%s)%n", key, NumberFormat.getInstance().format(frequency), percent, oneInN);
         }

@@ -6,6 +6,7 @@ import dev.newpower.cards.util.Images;
 
 import javax.swing.*;
 import java.awt.*;
+import java.security.SecureRandom;
 
 public class MainView extends JFrame {
 
@@ -34,7 +35,7 @@ public class MainView extends JFrame {
         AbstractButton cribbageSquaresButton = new JButton("Cribbage Squares...", cribbageIcon);
         add(cribbageSquaresButton);
         cribbageSquaresButton.addActionListener(ae -> {
-            GameView gameView = new GameView();
+            GameView gameView = new GameView(new SecureRandom());
         });
     }
 }

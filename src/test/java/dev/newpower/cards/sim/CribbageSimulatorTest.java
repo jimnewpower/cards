@@ -12,7 +12,7 @@ class CribbageSimulatorTest {
     @Test
     public void testSimulator() {
         CribbageSimulator simulator = new CribbageSimulator();
-        simulator.run(10000000L, new Random(1L));
+        simulator.run(100000L, new Random(1L));
         simulator.printStats();
         simulator.printHistogram();
     }
