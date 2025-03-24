@@ -2,6 +2,7 @@ package dev.newpower.cards.app;
 
 import dev.newpower.cards.games.MainView;
 import dev.newpower.cards.games.shuffler.ShuffleView;
+import dev.newpower.cards.util.Images;
 
 import javax.swing.*;
 
@@ -15,9 +16,10 @@ public class App
     {
         SwingUtilities.invokeLater(() -> {
             MainView mainView = new MainView();
-            mainView.setTitle("Shuffle");
+            mainView.setTitle("Cards");
             mainView.setSize(600, 360);
             mainView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            mainView.setIconImage(new ImageIcon(mainView.getClass().getResource("/images/png/bicycle-back.png")).getImage());
             mainView.setVisible(true);
         });
     }

@@ -2,6 +2,7 @@ package dev.newpower.cards.games;
 
 import dev.newpower.cards.games.cribbage.squares.GameView;
 import dev.newpower.cards.games.shuffler.ShuffleView;
+import dev.newpower.cards.util.Images;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,8 @@ public class MainView extends JFrame {
     public MainView() {
         setLayout(new FlowLayout());
 
-        AbstractButton shuffleButton = new JButton("Shuffle...");
+        ImageIcon shuffleIcon = new Images().createScaledImageIcon("/images/png/bicycle-back.png", 22, 32);
+        AbstractButton shuffleButton = new JButton("Shuffle...", shuffleIcon);
         add(shuffleButton);
         shuffleButton.addActionListener(ae -> {
             JButton riffle = new JButton("Riffle");
@@ -28,7 +30,8 @@ public class MainView extends JFrame {
             view.setVisible(true);
         });
 
-        AbstractButton cribbageSquaresButton = new JButton("Cribbage Squares...");
+        ImageIcon cribbageIcon = new Images().createScaledImageIcon("/images/png/cribbage.png", 32, 32);
+        AbstractButton cribbageSquaresButton = new JButton("Cribbage Squares...", cribbageIcon);
         add(cribbageSquaresButton);
         cribbageSquaresButton.addActionListener(ae -> {
             GameView gameView = new GameView();
