@@ -17,3 +17,14 @@ java -jar target\cards-1.0-SNAPSHOT.jar
 ```
 
 ## Cribbage Squares
+- Goal: Fill a 4x4 grid to maximize points.  
+
+- Setup: Draw 16 cards from the deck, placing them one by one into a 4x4 grid.  
+
+Play: Each row and column acts as a 4-card hand (plus a shared starter card, drawn 
+after the grid is complete). Score each row and column for cribbage combinations. 
+Some versions allow a 5th card per row/column as a personal starter for extra challenge.  
+
+- Scoring: Add up points from all eight hands (4 rows + 4 columns). Aim for high totals like 80+.
+
+
