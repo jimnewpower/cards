@@ -80,7 +80,6 @@ public class GameView extends JFrame {
 
         Panel() {
             deck = new Deck();
-            cards = new ArrayList<>(deck.shuffle());
 
             try {
                 backgroundImage = ImageIO.read(getClass().getResource("/images/png/poker_felt.png"));
@@ -110,6 +109,8 @@ public class GameView extends JFrame {
                     panel.repaint(); // Repaint to update visual feedback
                 }
             });
+
+            newGame();
         }
 
         @Override
