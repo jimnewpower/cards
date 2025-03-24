@@ -1,6 +1,5 @@
 # Cards
-A program that builds a 52-card deck of playing cards
-and provides visual shuffling options.
+An application of card games and simulations.
 
 ## Requirements
 - [Java 17 or later](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
