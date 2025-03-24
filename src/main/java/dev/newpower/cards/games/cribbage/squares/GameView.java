@@ -38,9 +38,24 @@ public class GameView extends JFrame {
         AbstractButton newGameButton = new JButton("New Game");
         newGameButton.addActionListener(ae -> panel.newGame());
 
+        AbstractButton helpButton = new JButton("Help...");
+        helpButton.addActionListener(ae -> showHelp());
+
         buttonPanel.add(newGameButton);
+        buttonPanel.add(helpButton);
 
         setVisible(true);
+    }
+
+    private void showHelp() {
+        String message = """
+                1. Tap deck to deal first card, or select New Game to deal first card.
+                2. Scores will be added up in all rows and columns, creating 8 hands.
+                3. Hover mouse over the grid location and click to drop the card.
+                4. The next card will be dealt automatically after dropping the previous card.
+                5. After last card is placed, the starter card will be cut automatically and scores tallied.
+                """;
+        JOptionPane.showMessageDialog(this, message, "Cribbage Squares Help", JOptionPane.QUESTION_MESSAGE);
     }
 
     private class Panel extends JPanel implements MouseListener {
