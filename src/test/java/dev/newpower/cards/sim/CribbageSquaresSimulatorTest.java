@@ -26,7 +26,7 @@ class CribbageSquaresSimulatorTest {
     }
 
     @Test
-    public void testCribbageSquaresSimulatorWithStackedDeck() {
+    public void testCribbageSquaresSimulatorWithStackedDeck4through8() {
         long nSimulations = 10000000L;
         long seed = 1L;
         CribbageSquaresSimulator simulator = new CribbageSquaresSimulator();
@@ -47,4 +47,28 @@ class CribbageSquaresSimulatorTest {
         System.out.println(simulator.getHighestHandString());
         simulator.printHistogram();
     }
+
+    @Test
+    public void testCribbageSquaresSimulatorWithStackedDeck5sFace() {
+        long nSimulations = 10000000L;
+        long seed = 1L;
+        CribbageSquaresSimulator simulator = new CribbageSquaresSimulator();
+
+        Deck deck = new Deck();
+        List<Card> stacked = new ArrayList<>(deck.getDeck());
+        for (int i = 51; i >= 0; i--) {
+            Card card = stacked.get(i);
+            int rank = card.getRankNumeric();
+            if (rank != 5 && rank < 10) {
+                stacked.remove(i);
+            }
+        }
+
+        simulator.runStacked(nSimulations, new Random(seed), stacked);
+        simulator.printStats("Cribbage Squares Simulation (Stacked Deck)");
+        System.out.println("Highest Hand:");
+        System.out.println(simulator.getHighestHandString());
+        simulator.printHistogram();
+    }
+
 }
