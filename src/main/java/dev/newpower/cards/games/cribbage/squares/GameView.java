@@ -7,9 +7,7 @@ import dev.newpower.cards.model.Deck;
 import dev.newpower.cards.util.Images;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -79,6 +77,8 @@ public class GameView extends JFrame {
         private int[] rowScores;
         private int[] columnScores;
 
+        private boolean rabbitHunting = false;
+
         Panel(Random random) {
             deck = new Deck(random);
 
@@ -108,6 +108,34 @@ public class GameView extends JFrame {
                     }
 
                     panel.repaint(); // Repaint to update visual feedback
+                }
+            });
+
+            setFocusable(true); // needed for key listener
+            requestFocusInWindow();
+            addKeyListener(new KeyListener() {
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    // This fires when a key is typed (pressed and released)
+                    if (e.getKeyChar() == 'n') {
+                        // Action when 'n' is typed
+                        rabbitHunting = true;
+                        currentCard = null;
+                        starterCard = null;
+                        deal();
+                        rabbitHunting = false;
+                    }
+                }
+
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    // This fires when a key is pressed (optional)
+                    // You could use e.getKeyCode() == KeyEvent.VK_N here instead
+                }
+
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    // This fires when a key is released (optional)
                 }
             });
 
@@ -292,6 +320,21 @@ public class GameView extends JFrame {
                 return;
             }
 
+            if (rabbitHunting && cards.isEmpty()) {
+                // wrap around the deck for the starter card
+                cards = new ArrayList<>(deck.shuffle());
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 4; j++) {
+                        cards.remove(squares[i][j]);
+                    }
+                }
+            }
+
+            if (cards.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Deck is empty.");
+                return;
+            }
+
             boolean full = true;
             boolean[][] available = new boolean[4][4];
             for (int i = 0; i < 4; i++) {
@@ -373,6 +416,10 @@ public class GameView extends JFrame {
             squares = new Card[4][4];
             currentCard = null;
             starterCard = null;
+
+            setFocusable(true); // needed for key listener
+            requestFocusInWindow();
+
             deal();
             validate();
             repaint();

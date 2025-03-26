@@ -1,46 +1,60 @@
 package dev.newpower.cards.sim;
 
 import dev.newpower.cards.games.cribbage.CribbageHand;
+import dev.newpower.cards.model.Card;
+import dev.newpower.cards.model.Deck;
 
 import java.text.NumberFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
-public class CribbageSimulator {
+public class Cribbage5Simulator {
 
     private Stats stats;
+
     private Map<Integer, Long> modeMap;
 
-    public CribbageSimulator() {
-    }
-
-    public Map<Integer, Long> getModeMap() {
-        return modeMap;
-    }
+    private List<CribbageHand> highest;
 
     public void run(long nSimulations, Random random) {
-        int min = 30;
+        int min = 200;
         int max = 0;
         modeMap = new HashMap<>();
         long count = 0L;
 
         long scoreTotal = 0L;
 
-        for (int i = 0; i < nSimulations; i++) {
-            CribbageHand hand = CribbageHand.dealRandom(random);
-            int score = hand.scoreHand();
+        long cumulativeScore = 0L;
 
-            if (score > max) {
-                max = score;
+        for (int sim = 0; sim < nSimulations; sim++) {
+            // deal 5 random 4-card hands that all share a starter card
+            List<CribbageHand> hands = new ArrayList<>();
+            Deck deck = new Deck(random);
+            LinkedList<Card> cards = deck.shuffle();
+            Card starter = cards.poll();
+            int simScore = 0;
+            for (int i = 0; i < 5; i++) {
+                Card[] handCards = new Card[4];
+                handCards[0] = cards.poll();
+                handCards[1] = cards.poll();
+                handCards[2] = cards.poll();
+                handCards[3] = cards.poll();
+                CribbageHand hand = new CribbageHand(handCards, starter);
+                int score = hand.scoreHand();
+                simScore += score;
+                hands.add(hand);
             }
-            if (score < min) {
-                min = score;
+
+            if (simScore < min) {
+                min = simScore;
+            }
+            if (simScore > max) {
+                max = simScore;
+                highest = hands;
             }
 
-            updateModeMap(score);
+            updateModeMap(simScore);
 
-            scoreTotal += score;
+            cumulativeScore += simScore;
             ++count;
         }
 
@@ -61,6 +75,7 @@ public class CribbageSimulator {
             }
         }
         stats.setMode(mode);
+
     }
 
     private void updateModeMap(int score) {
@@ -72,14 +87,8 @@ public class CribbageSimulator {
         modeMap.put(key, Long.valueOf(value.longValue() + 1L));
     }
 
-    public void printStats() {
-        System.out.println("Cribbage Simulation:");
-        System.out.println("count : " + NumberFormat.getInstance().format(stats.getCount()));
-        System.out.println("min   : " + stats.getMin());
-        System.out.println("max   : " + stats.getMax());
-        System.out.println("mean  : " + stats.getMean());
-        System.out.println("mode  : " + stats.getMode());
-//        modeMap.forEach((key, value) -> System.out.println("Score: " + key + ", Count: " + value));
+    public void printStats(String title) {
+        stats.printStats(title);
     }
 
     public void printHistogram() {
@@ -105,4 +114,13 @@ public class CribbageSimulator {
         }
     }
 
+    public void printHighestHand() {
+        if (highest == null) {
+            System.out.println("Highest is null.");
+        }
+        System.out.println("Highest hand:");
+        for (CribbageHand hand : highest) {
+            System.out.println(hand.toString());
+        }
+    }
 }

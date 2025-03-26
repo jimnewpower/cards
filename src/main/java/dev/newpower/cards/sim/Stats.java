@@ -1,9 +1,10 @@
 package dev.newpower.cards.sim;
 
 import java.text.NumberFormat;
+import java.util.Map;
 
 public class Stats {
-
+    // TODO: use Atomic values to make this thread-safe and support multi-threaded simulations
     private int min;
     private int max;
     private double mean;
@@ -18,12 +19,24 @@ public class Stats {
         this.min = min;
     }
 
+    public void suggestMin(int suggested) {
+        if (suggested < min) {
+            min = suggested;
+        }
+    }
+
     public int getMax() {
         return max;
     }
 
     public void setMax(int max) {
         this.max = max;
+    }
+
+    public void suggestMax(int suggested) {
+        if (suggested > max) {
+            max = suggested;
+        }
     }
 
     public double getMean() {
@@ -48,6 +61,22 @@ public class Stats {
 
     public void setCount(long count) {
         this.count = count;
+    }
+
+    public void incrementCount() {
+        ++count;
+    }
+
+    public void computeMode(Map<Integer, Long> modeMap) {
+        int mode = -1;
+        long most = 0L;
+        for (Integer score : modeMap.keySet()) {
+            if (modeMap.get(score).longValue() > most) {
+                most = modeMap.get(score).longValue();
+                mode = score.intValue();
+            }
+        }
+        setMode(mode);
     }
 
     public void printStats(String title) {

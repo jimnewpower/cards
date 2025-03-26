@@ -2,20 +2,20 @@ package dev.newpower.cards.sim;
 
 import org.junit.jupiter.api.Test;
 
-import java.security.SecureRandom;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CribbageSimulatorTest {
+class Cribbage5SimulatorTest {
 
     @Test
-    public void testSimulator() {
+    public void testCribbage5Simulator() {
         long nSimulations = 10000000L;
         long seed = 1L;
-        CribbageSimulator simulator = new CribbageSimulator();
+        Cribbage5Simulator simulator = new Cribbage5Simulator();
         simulator.run(nSimulations, new Random(seed));
-        simulator.printStats();
+        simulator.printStats("Cribbage 5 Simulation:");
         simulator.printHistogram();
+        simulator.printHighestHand();
     }
 }
