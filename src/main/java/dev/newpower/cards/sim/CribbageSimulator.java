@@ -20,36 +20,23 @@ public class CribbageSimulator {
     }
 
     public void run(long nSimulations, Random random) {
-        int min = 30;
-        int max = 0;
+        stats = new Stats();
         modeMap = new HashMap<>();
-        long count = 0L;
-
         long scoreTotal = 0L;
 
         for (int i = 0; i < nSimulations; i++) {
             CribbageHand hand = CribbageHand.dealRandom(random);
             int score = hand.scoreHand();
 
-            if (score > max) {
-                max = score;
-            }
-            if (score < min) {
-                min = score;
-            }
-
+            stats.suggestMin(score);
+            stats.suggestMax(score);
             updateModeMap(score);
 
             scoreTotal += score;
-            ++count;
+            stats.incrementCount();
         }
 
-        stats = new Stats();
-        stats.setCount(count);
-        stats.setMin(min);
-        stats.setMax(max);
-
-        double mean = scoreTotal / (double) count;
+        double mean = scoreTotal / (double) stats.getCount();
         stats.setMean(mean);
 
         int mode = -1;

@@ -50,8 +50,8 @@ class CribbageSquaresSimulatorTest {
 
     @Test
     public void testCribbageSquaresSimulatorWithStackedDeck5sFace() {
-        long nSimulations = 10000000L;
-        long seed = 1L;
+        long nSimulations = 1000000000L;
+        long seed = 101L;
         CribbageSquaresSimulator simulator = new CribbageSquaresSimulator();
 
         Deck deck = new Deck();

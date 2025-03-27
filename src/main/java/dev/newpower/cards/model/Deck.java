@@ -3,10 +3,20 @@ package dev.newpower.cards.model;
 
 import java.security.SecureRandom;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Deck {
     private static final int MIN_SHUFFLE_ITERATIONS = 3;
+
+    public static Deque<Card> randomDeck() {
+        Deck deck = new Deck();
+        return deck.shuffle();
+    }
+
+    public static Deque<Card> randomDeck(Random random) {
+        Deck deck = new Deck(random);
+        return deck.shuffle();
+    }
+
     private Random random;
 
     private List<Card> deck;
@@ -49,7 +59,7 @@ public class Deck {
         Collections.shuffle(deck, random);
     }
 
-    public LinkedList<Card> shuffle(ShuffleStats stats) {
+    public Deque<Card> shuffle(ShuffleStats stats) {
         final int min = MIN_SHUFFLE_ITERATIONS;
         // want a minimum number of each type of shuffle
         while (stats.getnJavaShuffles() < min || stats.getnCuts() < min || stats.getnRiffles() < min) {
@@ -73,7 +83,7 @@ public class Deck {
         return new LinkedList<>(deck);
     }
 
-    public LinkedList<Card> shuffle() {
+    public Deque<Card> shuffle() {
         return shuffle(new ShuffleStats());
     }
 

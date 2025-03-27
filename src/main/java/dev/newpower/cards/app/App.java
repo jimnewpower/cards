@@ -1,8 +1,6 @@
 package dev.newpower.cards.app;
 
 import dev.newpower.cards.games.MainView;
-import dev.newpower.cards.games.shuffler.ShuffleView;
-import dev.newpower.cards.util.Images;
 
 import javax.swing.*;
 

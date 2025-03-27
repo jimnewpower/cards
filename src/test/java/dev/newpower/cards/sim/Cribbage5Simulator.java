@@ -29,7 +29,7 @@ public class Cribbage5Simulator {
             // deal 5 random 4-card hands that all share a starter card
             List<CribbageHand> hands = new ArrayList<>();
             Deck deck = new Deck(random);
-            LinkedList<Card> cards = deck.shuffle();
+            Deque<Card> cards = deck.shuffle();
             Card starter = cards.poll();
             int simScore = 0;
             for (int i = 0; i < 5; i++) {

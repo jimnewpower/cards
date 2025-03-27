@@ -7,7 +7,6 @@ import dev.newpower.cards.util.Hasher;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.*;
 
 public class CribbageHand {
@@ -32,13 +31,12 @@ public class CribbageHand {
     /**
      * Construct a random cribbage hand by dealing from a deck.
      *
-     * @param deck the deck from which to deal.
      * @param random the randomizer.
-     * @return
+     * @return random cribbage hand.
      */
     public static CribbageHand dealRandom(Random random) {
         Deck deck = new Deck(random);
-        LinkedList<Card> shuffled = deck.shuffle();
+        Deque<Card> shuffled = deck.shuffle();
         List<Card> cards = new ArrayList<>(deck.getDeck());
         Card[] hand = new Card[4];
         for (int i = 0; i < 4; i++) {

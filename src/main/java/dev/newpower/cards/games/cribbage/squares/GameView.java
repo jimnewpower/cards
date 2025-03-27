@@ -6,16 +6,14 @@ import dev.newpower.cards.model.Constants;
 import dev.newpower.cards.model.Deck;
 import dev.newpower.cards.util.Images;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class GameView extends JFrame {

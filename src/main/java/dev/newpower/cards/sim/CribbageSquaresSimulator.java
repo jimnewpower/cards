@@ -28,7 +28,7 @@ public class CribbageSquaresSimulator {
 
         for (long sim = 0L; sim < nSimulations; sim++) {
             Deck deck = new Deck(random);
-            LinkedList<Card> cards = deck.shuffle();
+            Deque<Card> cards = deck.shuffle();
             cumulativeScore += simulate(cards, stats);
         }
 
