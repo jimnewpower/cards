@@ -12,7 +12,7 @@ class CribbageSquaresSimulatorTest {
 
     @Test
     public void testCribbageSquaresSimulator() {
-        long nSimulations = 1000L;
+        long nSimulations = 10000000L;
         long seed = 1L;
         CribbageSquaresSimulator simulator = new CribbageSquaresSimulator();
         simulator.run(nSimulations, new Random(seed));

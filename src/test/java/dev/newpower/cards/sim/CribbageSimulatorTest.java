@@ -8,11 +8,10 @@ class CribbageSimulatorTest {
 
     @Test
     public void testSimulator() {
-        long nSimulations = 10000L;
+        long nSimulations = 1000000L;
         long seed = 1L;
         CribbageSimulator simulator = new CribbageSimulator();
         simulator.run(nSimulations, new Random(seed));
         simulator.printStats();
-        simulator.printHistogram();
     }
 }

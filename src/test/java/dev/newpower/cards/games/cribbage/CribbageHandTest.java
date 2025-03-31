@@ -138,6 +138,28 @@ class CribbageHandTest {
 
         cribbageHand = new CribbageHand(hand, starter);
         assertEquals(24, cribbageHand.scoreHand());
+
+        starter = CardBuilder.Three().ofSpades();
+        hand = new Card[] {
+                CardBuilder.Six().ofSpades(),
+                CardBuilder.Six().ofHearts(),
+                CardBuilder.Six().ofClubs(),
+                CardBuilder.Six().ofDiamonds()
+        };
+
+        cribbageHand = new CribbageHand(hand, starter);
+        assertEquals(24, cribbageHand.scoreHand());
+
+        starter = CardBuilder.Ace().ofSpades();
+        hand = new Card[] {
+                CardBuilder.Seven().ofSpades(),
+                CardBuilder.Seven().ofHearts(),
+                CardBuilder.Seven().ofClubs(),
+                CardBuilder.Seven().ofDiamonds()
+        };
+
+        cribbageHand = new CribbageHand(hand, starter);
+        assertEquals(24, cribbageHand.scoreHand());
     }
 
     @Test

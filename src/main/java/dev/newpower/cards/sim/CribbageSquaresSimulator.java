@@ -4,10 +4,13 @@ import dev.newpower.cards.games.cribbage.CribbageHand;
 import dev.newpower.cards.model.Card;
 import dev.newpower.cards.model.Deck;
 
+import java.sql.Time;
 import java.text.NumberFormat;
 import java.util.*;
 
 public class CribbageSquaresSimulator {
+    private TimeTracker timeTracker;
+
     private Stats stats;
 
     private Map<Integer, Long> modeMap;
@@ -15,6 +18,9 @@ public class CribbageSquaresSimulator {
     private String highestHandString;
 
     public void run(long nSimulations, Random random) {
+        timeTracker = new TimeTracker();
+        timeTracker.start();
+
         stats = new Stats();
         stats.setCount(0L);
         stats.setMin(1000);
@@ -35,9 +41,14 @@ public class CribbageSquaresSimulator {
         double mean = cumulativeScore / (double) stats.getCount();
         stats.setMean(mean);
         stats.computeMode(modeMap);
+
+        timeTracker.stop();
     }
 
     public void runStacked(long nSimulations, Random random, List<Card> stackedCards) {
+        timeTracker = new TimeTracker();
+        timeTracker.start();
+
         stats = new Stats();
         stats.setCount(0L);
         stats.setMin(1000);
@@ -58,84 +69,97 @@ public class CribbageSquaresSimulator {
         double mean = cumulativeScore / (double) stats.getCount();
         stats.setMean(mean);
         stats.computeMode(modeMap);
+
+        timeTracker.stop();
     }
 
     private int simulate(Deque<Card> cards, Stats stats) {
+        int cumulativeScore = 0;
+        Card[][] squares = dealSquares(cards);
+        Card starter = cards.poll();
+        while (starter != null) {
+            int totalScore = 0;
+            int[] rowScores = new int[4];
+            for (int i = 0; i < 4; i++) {
+                Card[] handCards = new Card[4];
+                for (int j = 0; j < 4; j++) {
+                    handCards[j] = squares[i][j];
+                }
+                CribbageHand hand = new CribbageHand(handCards, starter);
+                int score = hand.scoreHand();
+                rowScores[i] = score;
+                totalScore += score;
+            }
+
+            List<CribbageHand> allHands = new ArrayList<>();
+
+            // columns
+            int[] columnScores = new int[4];
+            for (int j = 0; j < 4; j++) {
+                Card[] handCards = new Card[4];
+                for (int i = 0; i < 4; i++) {
+                    handCards[i] = squares[i][j];
+                }
+                CribbageHand hand = new CribbageHand(handCards, starter);
+                allHands.add(hand);
+                int score = hand.scoreHand();
+                columnScores[j] = score;
+                totalScore += score;
+            }
+
+            if (totalScore > stats.getMax()) {
+                if (totalScore > 90) {
+                    highestHandString = "   ";
+                    highestHandString += starter.getShorthand() + " " + starter.getShorthand() + " " + starter.getShorthand() + " " + starter.getShorthand() + "\n";
+                    for (int i = 0; i < 4; i++) {
+                        Card[] handCards = new Card[4];
+                        for (int j = 0; j < 4; j++) {
+                            handCards[j] = squares[i][j];
+                            highestHandString += j == 0 ? starter.getShorthand() : "";
+                            highestHandString += " " + squares[i][j].getShorthand();
+                        }
+                        CribbageHand hand = new CribbageHand(handCards, starter);
+                        highestHandString += " " + String.format("%2d", hand.scoreHand()) + "\n";
+                    }
+
+                    highestHandString += "   ";
+                    for (int j = 0; j < 4; j++) {
+                        Card[] handCards = new Card[4];
+                        for (int i = 0; i < 4; i++) {
+                            handCards[i] = squares[i][j];
+                        }
+                        CribbageHand hand = new CribbageHand(handCards, starter);
+                        int score = hand.scoreHand();
+                        highestHandString += String.format("%2d", hand.scoreHand()) + " ";
+                    }
+
+                    highestHandString += "\nTotal: " + totalScore;
+                }
+            }
+
+            stats.suggestMin(totalScore);
+            stats.suggestMax(totalScore);
+            updateModeMap(totalScore);
+            cumulativeScore += totalScore;
+            stats.incrementCount();
+
+            starter = cards.poll();
+            if (totalScore < 90) {
+                starter = null;
+            }
+        }
+
+        return cumulativeScore;
+    }
+
+    private Card[][] dealSquares(Deque<Card> cards) {
         Card[][] squares = new Card[4][4];
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 squares[i][j] = cards.poll();
             }
         }
-        Card starter = cards.poll();
-
-        int totalScore = 0;
-        int[] rowScores = new int[4];
-        for (int i = 0; i < 4; i++) {
-            Card[] handCards = new Card[4];
-            for (int j = 0; j < 4; j++) {
-                handCards[j] = squares[i][j];
-            }
-            CribbageHand hand = new CribbageHand(handCards, starter);
-            int score = hand.scoreHand();
-            rowScores[i] = score;
-            totalScore += score;
-        }
-
-        List<CribbageHand> allHands = new ArrayList<>();
-
-        // columns
-        int[] columnScores = new int[4];
-        for (int j = 0; j < 4; j++) {
-            Card[] handCards = new Card[4];
-            for (int i = 0; i < 4; i++) {
-                handCards[i] = squares[i][j];
-            }
-            CribbageHand hand = new CribbageHand(handCards, starter);
-            allHands.add(hand);
-            int score = hand.scoreHand();
-            columnScores[j] = score;
-            totalScore += score;
-        }
-
-        if (totalScore > stats.getMax()) {
-            if (totalScore > 90) {
-                highestHandString = "   ";
-                highestHandString += starter.getShorthand() + " " + starter.getShorthand() + " " + starter.getShorthand() + " " + starter.getShorthand() + "\n";
-                for (int i = 0; i < 4; i++) {
-                    Card[] handCards = new Card[4];
-                    for (int j = 0; j < 4; j++) {
-                        handCards[j] = squares[i][j];
-                        highestHandString += j == 0 ? starter.getShorthand() : "";
-                        highestHandString += " " + squares[i][j].getShorthand();
-                    }
-                    CribbageHand hand = new CribbageHand(handCards, starter);
-                    highestHandString += " " + String.format("%2d", hand.scoreHand()) + "\n";
-                }
-
-                highestHandString += "   ";
-                for (int j = 0; j < 4; j++) {
-                    Card[] handCards = new Card[4];
-                    for (int i = 0; i < 4; i++) {
-                        handCards[i] = squares[i][j];
-                    }
-                    CribbageHand hand = new CribbageHand(handCards, starter);
-                    int score = hand.scoreHand();
-                    highestHandString += String.format("%2d", hand.scoreHand()) + " ";
-                }
-
-                highestHandString += "\nTotal: " + totalScore;
-            }
-        }
-
-        stats.suggestMin(totalScore);
-        stats.suggestMax(totalScore);
-
-        updateModeMap(totalScore);
-
-        stats.incrementCount();
-
-        return totalScore;
+        return squares;
     }
 
     private void updateModeMap(int score) {
@@ -152,6 +176,7 @@ public class CribbageSquaresSimulator {
     }
 
     public void printStats(String title) {
+        System.out.println(title + " elapsed time: " + timeTracker.getElapsedTimeFormatted());
         stats.printStats(title);
     }
 
