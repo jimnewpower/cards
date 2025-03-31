@@ -27,6 +27,11 @@ Some versions allow a 5th card per row/column as a personal starter for extra ch
 
 - Scoring: Add up points from all eight hands (4 rows + 4 columns). Aim for high totals like 80+.
 
+1. Select New Game to deal first card.
+2. Hover mouse over the grid location and click mouse to place the card.
+3. Next card is dealt automatically. Repeat step 2 until all cards are dealt.
+4. After final card is placed, the starter card will be cut automatically and scores tallied.
+
 ![New Game](src/main/resources/images/boards/cribbage-squares-initial.png)
 ![Place Card](src/main/resources/images/boards/cribbage-squares-2.png)
 ![Place Card](src/main/resources/images/boards/cribbage-squares-3.png)
