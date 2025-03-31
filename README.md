@@ -27,4 +27,9 @@ Some versions allow a 5th card per row/column as a personal starter for extra ch
 
 - Scoring: Add up points from all eight hands (4 rows + 4 columns). Aim for high totals like 80+.
 
+![New Game](src/main/resources/images/boards/cribbage-squares-initial.png)
+![Place Card](src/main/resources/images/boards/cribbage-squares-2.png)
+![Place Card](src/main/resources/images/boards/cribbage-squares-3.png)
+![Place Card](src/main/resources/images/boards/cribbage-squares-4.png)
+![Final](src/main/resources/images/boards/cribbage-squares-final.png)
 
