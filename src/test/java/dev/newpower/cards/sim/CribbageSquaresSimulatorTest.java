@@ -4,6 +4,7 @@ import dev.newpower.cards.model.Card;
 import dev.newpower.cards.model.Deck;
 import org.junit.jupiter.api.Test;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -12,19 +13,30 @@ class CribbageSquaresSimulatorTest {
 
     @Test
     public void testCribbageSquaresSimulator() {
-        long nSimulations = 10000000L;
-        long seed = 1L;
+        long nSimulations = 1_000_000_000L;
+        long seed = new SecureRandom().nextLong();
+        System.out.println("seed:" + seed);
         CribbageSquaresSimulator simulator = new CribbageSquaresSimulator();
         simulator.run(nSimulations, new Random(seed));
-        simulator.printStats("Cribbage Squares Simulation");
-        System.out.println("Highest Hand:");
-        System.out.println(simulator.getHighestHandString());
-        simulator.printHistogram();
+
+        if (simulator.getLowestHand() != null) {
+            System.out.println("Lowest Hand:");
+            System.out.println(simulator.getLowestHandString());
+            System.out.println();
+        }
+
+        if (simulator.getHighestHand() != null) {
+            System.out.println("Highest Hand:");
+            System.out.println(simulator.getHighestHandString());
+            System.out.println();
+        }
+
+        simulator.printStats();
     }
 
     @Test
     public void testCribbageSquaresSimulatorWithStackedDeck4through8() {
-        long nSimulations = 10000000L;
+        long nSimulations = 100000000L;
         long seed = 1L;
         CribbageSquaresSimulator simulator = new CribbageSquaresSimulator();
 
@@ -42,13 +54,13 @@ class CribbageSquaresSimulatorTest {
         simulator.printStats("Cribbage Squares Simulation (Stacked Deck)");
         System.out.println("Highest Hand:");
         System.out.println(simulator.getHighestHandString());
-        simulator.printHistogram();
+        simulator.printStats();
     }
 
     @Test
     public void testCribbageSquaresSimulatorWithStackedDeck5sFace() {
         long nSimulations = 1000000000L;
-        long seed = 101L;
+        long seed = 131L;
         CribbageSquaresSimulator simulator = new CribbageSquaresSimulator();
 
         Deck deck = new Deck();
@@ -65,7 +77,7 @@ class CribbageSquaresSimulatorTest {
         simulator.printStats("Cribbage Squares Simulation (Stacked Deck)");
         System.out.println("Highest Hand:");
         System.out.println(simulator.getHighestHandString());
-        simulator.printHistogram();
+        simulator.printStats();
     }
 
 }

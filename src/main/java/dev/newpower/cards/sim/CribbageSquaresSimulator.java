@@ -1,47 +1,53 @@
 package dev.newpower.cards.sim;
 
 import dev.newpower.cards.games.cribbage.CribbageHand;
+import dev.newpower.cards.games.cribbage.squares.CribbageSquaresHand;
 import dev.newpower.cards.model.Card;
 import dev.newpower.cards.model.Deck;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import java.sql.Time;
 import java.text.NumberFormat;
 import java.util.*;
 
 public class CribbageSquaresSimulator {
+    private static final int KNOWN_MIN = 0;
+    private static final int KNOWN_MAX = 170;
+    // because we loop on all possible starter cards for a given 16-card grid, divide by 36 to get the target number of simulations
+    private static final int DIVISOR = 36;
+
     private TimeTracker timeTracker;
 
     private Stats stats;
 
-    private Map<Integer, Long> modeMap;
+    private Mode mode;
 
-    private String highestHandString;
+    private CribbageSquaresHand lowestHand;
+    private CribbageSquaresHand highestHand;
 
     public void run(long nSimulations, Random random) {
         timeTracker = new TimeTracker();
         timeTracker.start();
+
+        mode = new Mode(KNOWN_MIN, KNOWN_MAX);
 
         stats = new Stats();
         stats.setCount(0L);
         stats.setMin(1000);
         stats.setMax(0);
 
-        modeMap = new HashMap<>();
-
         long cumulativeScore = 0L;
 
-        highestHandString = "";
-
-        for (long sim = 0L; sim < nSimulations; sim++) {
-            Deck deck = new Deck(random);
-            Deque<Card> cards = deck.shuffle();
-            cumulativeScore += simulate(cards, stats);
+        Deck deck = new Deck(random);
+        final long nSim = computeNSimulations(nSimulations);
+        for (long sim = 0L; sim < nSim; sim++) {
+            Deque<Card> cards = deck.shuffleSimple();
+            int score = simulate(cards);
+            cumulativeScore += score;
         }
 
         double mean = cumulativeScore / (double) stats.getCount();
         stats.setMean(mean);
-        stats.computeMode(modeMap);
-
         timeTracker.stop();
     }
 
@@ -49,158 +55,119 @@ public class CribbageSquaresSimulator {
         timeTracker = new TimeTracker();
         timeTracker.start();
 
+        mode = new Mode(KNOWN_MIN, KNOWN_MAX);
+
         stats = new Stats();
         stats.setCount(0L);
         stats.setMin(1000);
         stats.setMax(0);
 
-        modeMap = new HashMap<>();
-
         long cumulativeScore = 0L;
 
-        highestHandString = "";
-
-        for (long sim = 0L; sim < nSimulations; sim++) {
+        final long nSim = computeNSimulations(nSimulations);
+        for (long sim = 0L; sim < nSim; sim++) {
             Collections.shuffle(stackedCards);
             Deque<Card> stacked = new LinkedList<>(stackedCards);
-            cumulativeScore += simulate(stacked, stats);
+            cumulativeScore += simulate(stacked);
         }
 
         double mean = cumulativeScore / (double) stats.getCount();
         stats.setMean(mean);
-        stats.computeMode(modeMap);
 
         timeTracker.stop();
     }
 
-    private int simulate(Deque<Card> cards, Stats stats) {
+    private long computeNSimulations(long nSimulations) {
+        return (nSimulations + DIVISOR) / DIVISOR;
+    }
+
+    private int simulate(Deque<Card> cards) {
         int cumulativeScore = 0;
-        Card[][] squares = dealSquares(cards);
-        Card starter = cards.poll();
+        CribbageSquaresHand hand = new CribbageSquaresHand(cards);
+        Card starter = hand.getStarter();
         while (starter != null) {
-            int totalScore = 0;
-            int[] rowScores = new int[4];
-            for (int i = 0; i < 4; i++) {
-                Card[] handCards = new Card[4];
-                for (int j = 0; j < 4; j++) {
-                    handCards[j] = squares[i][j];
-                }
-                CribbageHand hand = new CribbageHand(handCards, starter);
-                int score = hand.scoreHand();
-                rowScores[i] = score;
-                totalScore += score;
+            int totalScore = hand.computeScore();
+
+            mode.add(totalScore);
+            cumulativeScore += totalScore;
+            stats.incrementCount();
+
+            if (totalScore < stats.getMin()) {
+                lowestHand = new CribbageSquaresHand(hand);
             }
-
-            List<CribbageHand> allHands = new ArrayList<>();
-
-            // columns
-            int[] columnScores = new int[4];
-            for (int j = 0; j < 4; j++) {
-                Card[] handCards = new Card[4];
-                for (int i = 0; i < 4; i++) {
-                    handCards[i] = squares[i][j];
-                }
-                CribbageHand hand = new CribbageHand(handCards, starter);
-                allHands.add(hand);
-                int score = hand.scoreHand();
-                columnScores[j] = score;
-                totalScore += score;
-            }
-
             if (totalScore > stats.getMax()) {
-                if (totalScore > 90) {
-                    highestHandString = "   ";
-                    highestHandString += starter.getShorthand() + " " + starter.getShorthand() + " " + starter.getShorthand() + " " + starter.getShorthand() + "\n";
-                    for (int i = 0; i < 4; i++) {
-                        Card[] handCards = new Card[4];
-                        for (int j = 0; j < 4; j++) {
-                            handCards[j] = squares[i][j];
-                            highestHandString += j == 0 ? starter.getShorthand() : "";
-                            highestHandString += " " + squares[i][j].getShorthand();
-                        }
-                        CribbageHand hand = new CribbageHand(handCards, starter);
-                        highestHandString += " " + String.format("%2d", hand.scoreHand()) + "\n";
-                    }
-
-                    highestHandString += "   ";
-                    for (int j = 0; j < 4; j++) {
-                        Card[] handCards = new Card[4];
-                        for (int i = 0; i < 4; i++) {
-                            handCards[i] = squares[i][j];
-                        }
-                        CribbageHand hand = new CribbageHand(handCards, starter);
-                        int score = hand.scoreHand();
-                        highestHandString += String.format("%2d", hand.scoreHand()) + " ";
-                    }
-
-                    highestHandString += "\nTotal: " + totalScore;
-                }
+                highestHand = new CribbageSquaresHand(hand);
             }
 
             stats.suggestMin(totalScore);
             stats.suggestMax(totalScore);
-            updateModeMap(totalScore);
-            cumulativeScore += totalScore;
-            stats.incrementCount();
 
             starter = cards.poll();
-            if (totalScore < 90) {
-                starter = null;
+            if (starter != null) {
+                hand.setStarter(starter);
             }
         }
 
         return cumulativeScore;
     }
 
-    private Card[][] dealSquares(Deque<Card> cards) {
-        Card[][] squares = new Card[4][4];
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                squares[i][j] = cards.poll();
-            }
-        }
-        return squares;
+    public CribbageSquaresHand getLowestHand() {
+        return lowestHand;
     }
 
-    private void updateModeMap(int score) {
-        Long value = Long.valueOf(0);
-        Integer key = Integer.valueOf(score);
-        if (modeMap.containsKey(key)) {
-            value = modeMap.get(key);
-        }
-        modeMap.put(key, Long.valueOf(value.longValue() + 1L));
+    public CribbageSquaresHand getHighestHand() {
+        return highestHand;
+    }
+
+    public String getLowestHandString() {
+        return lowestHand == null ? "" : lowestHand.generateHandString();
     }
 
     public String getHighestHandString() {
-        return highestHandString;
+        return highestHand == null ? "" : highestHand.generateHandString();
     }
 
     public void printStats(String title) {
         System.out.println(title + " elapsed time: " + timeTracker.getElapsedTimeFormatted());
-        stats.printStats(title);
     }
 
-    public void printHistogram() {
-        // Find the maximum value for scaling (optional) or just print directly
-        long maxValue = modeMap.values().stream().max(Long::compare).orElse(1L);
+    public void printStats() {
+        String elapsedTime = timeTracker.getElapsedTimeFormatted();
+        int modeValue = mode.computeMode();
+        NumberFormat nf = NumberFormat.getInstance();
+        System.out.println("Cribbage Squares Simulation:");
+        System.out.printf("Elapsed time       : %s%n", elapsedTime);
+        System.out.printf("Number of hands    : %s%n", nf.format(mode.getTotalHands()));
+        System.out.printf("Min score          : %3d%n", mode.getMin());
+        System.out.printf("Max score          : %3d%n", mode.getMax());
+        System.out.printf("Mean score         : %.2f%n", mode.getMean());
+        System.out.printf("Median             : %.0f%n", mode.getPercentile(50));
+        System.out.printf("Mode               : %d (%d)%n", modeValue, mode.getCount(modeValue));
+        System.out.printf("60th percentile    : %.0f%n", mode.getPercentile(60));
+        System.out.printf("70th percentile    : %.0f%n", mode.getPercentile(70));
+        System.out.printf("75th percentile    : %.0f%n", mode.getPercentile(75));
+        System.out.printf("80th percentile    : %.0f%n", mode.getPercentile(80));
+        System.out.printf("85th percentile    : %.0f%n", mode.getPercentile(85));
+        System.out.printf("90th percentile    : %.0f%n", mode.getPercentile(90));
+        System.out.printf("91st percentile    : %.0f%n", mode.getPercentile(91));
+        System.out.printf("92nd percentile    : %.0f%n", mode.getPercentile(92));
+        System.out.printf("93rd percentile    : %.0f%n", mode.getPercentile(93));
+        System.out.printf("94th percentile    : %.0f%n", mode.getPercentile(94));
+        System.out.printf("95th percentile    : %.0f%n", mode.getPercentile(95));
+        System.out.printf("96th percentile    : %.0f%n", mode.getPercentile(96));
+        System.out.printf("97th percentile    : %.0f%n", mode.getPercentile(97));
+        System.out.printf("98th percentile    : %.0f%n", mode.getPercentile(98));
+        System.out.printf("99th percentile    : %.0f%n", mode.getPercentile(99));
+        System.out.printf("99.9th percentile  : %.0f%n", mode.getPercentile(99.9));
+        System.out.printf("99.99th percentile : %.0f%n", mode.getPercentile(99.99));
+        System.out.printf("99.999th percentile: %.0f%n", mode.getPercentile(99.999));
+        System.out.printf("Standard Deviation : %.2f%n", mode.getStandardDeviation());
+        System.out.printf("Variance           : %.2f%n", mode.getVariance());
+//        System.out.printf("Kurtosis           : %.2f%n", mode.getKurtosis());
+//        System.out.printf("Excess Kurtosis    : %.2f%n", mode.getKurtosis() - 3);
+//        System.out.printf("Skewness           : %.2f%n", mode.getSkewness());
 
-        System.out.println("Score counts:");
-        // Print each key-value pair as a histogram bar
-        for (Map.Entry<Integer, Long> entry : modeMap.entrySet()) {
-            int key = entry.getKey();
-            long frequency = entry.getValue();
-
-            // Create the bar using asterisks
-//            String bar = "=".repeat((int) value); // Cast to int if values are small
-//            System.out.printf("Score %2d (%4d): %s%n", key, value, bar);
-
-            double percent = frequency / (double) stats.getCount() * 100.0;
-
-            // Calculate "1 in N" (avoid division by zero)
-            double chances = frequency > 0 ? (double) stats.getCount() / frequency : Double.POSITIVE_INFINITY;
-            String oneInN = String.format("1 in %12s %s", NumberFormat.getInstance().format(chances), "hands");
-            System.out.printf("  %3d : %9s %7.2f%%  (%s)%n", key, NumberFormat.getInstance().format(frequency), percent, oneInN);
-        }
+        mode.printHistogram();
     }
 
 }

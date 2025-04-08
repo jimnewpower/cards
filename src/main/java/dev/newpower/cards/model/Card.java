@@ -11,8 +11,6 @@ public class Card {
     public Card(Rank rank, Suit suit) {
         this.rank = rank;
         this.suit = suit;
-        this.svgImagePath = "/images/svg/" + rank.getRank().toLowerCase() + "_of_" + suit.getName().toLowerCase() + ".svg";
-        this.pngImagePath = "/images/png/" + rank.getRank().toLowerCase() + "_of_" + suit.getName().toLowerCase() + ".png";
     }
 
     public Rank getRank() {
@@ -28,10 +26,16 @@ public class Card {
     }
 
     public String getSvgImagePath() {
+        if (svgImagePath == null) {
+            this.svgImagePath = "/images/svg/" + rank.getRank().toLowerCase() + "_of_" + suit.getName().toLowerCase() + ".svg";
+        }
         return svgImagePath;
     }
 
     public String getPngImagePath() {
+        if (pngImagePath == null) {
+            this.pngImagePath = "/images/png/" + rank.getRank().toLowerCase() + "_of_" + suit.getName().toLowerCase() + ".png";
+        }
         return pngImagePath;
     }
 

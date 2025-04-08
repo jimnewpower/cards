@@ -1,0 +1,217 @@
+Cribbage Squares Simulation
+count : 10,006,086
+min   : 0
+max   : 112
+mean  : 38.1618124209606
+mode  : 0
+Highest Hand:
+   5D 5D 5D 5D
+5D 5C TD 5H QC 20
+5D JD JC 7D KD  9
+5D 4H 4D 6D 6H 24
+5D JS QS 5S 6S 14
+   13  9 17  6 
+Total: 112
+Cribbage Squares Simulation:
+Elapsed time       : 00:04:28
+Number of hands    : 10,006,086
+Min score          : 0
+Max score          : 112
+Mean score         : 38.16
+Median             : 37
+Mode               : 36 (424780)
+60th percentile    : 40
+70th percentile    : 43
+75th percentile    : 45
+80th percentile    : 46
+85th percentile    : 49
+90th percentile    : 52
+91st percentile    : 53
+92nd percentile    : 53
+93rd percentile    : 54
+94th percentile    : 55
+95th percentile    : 57
+96th percentile    : 58
+97th percentile    : 60
+98th percentile    : 62
+99th percentile    : 66
+99.9th percentile  : 77
+99.99th percentile : 87
+99.999th percentile: 95
+Standard Deviation : 10.39
+Variance           : 107.89
+Kurtosis           : 0.39
+Excess Kurtosis    : -2.61
+Skewness           : 0.46
+Score counts:
+    0 :          1    0.00%  (1 in 10006086.00 hands)
+    1 :          0    0.00%  (1 in    Infinity hands)
+    2 :         15    0.00%  (1 in   667072.40 hands)
+    3 :          1    0.00%  (1 in 10006086.00 hands)
+    4 :         78    0.00%  (1 in   128283.15 hands)
+    5 :         27    0.00%  (1 in   370595.78 hands)
+    6 :        341    0.00%  (1 in    29343.36 hands)
+    7 :        121    0.00%  (1 in    82694.93 hands)
+    8 :      1,114    0.01%  (1 in     8982.12 hands)
+    9 :        567    0.01%  (1 in    17647.42 hands)
+   10 :      3,315    0.03%  (1 in     3018.43 hands)
+   11 :      2,010    0.02%  (1 in     4978.15 hands)
+   12 :      7,964    0.08%  (1 in     1256.41 hands)
+   13 :      5,270    0.05%  (1 in     1898.69 hands)
+   14 :     16,997    0.17%  (1 in      588.70 hands)
+   15 :     12,384    0.12%  (1 in      807.98 hands)
+   16 :     32,376    0.32%  (1 in      309.06 hands)
+   17 :     24,948    0.25%  (1 in      401.08 hands)
+   18 :     56,036    0.56%  (1 in      178.57 hands)
+   19 :     45,364    0.45%  (1 in      220.57 hands)
+   20 :     89,574    0.90%  (1 in      111.71 hands)
+   21 :     75,036    0.75%  (1 in      133.35 hands)
+   22 :    133,283    1.33%  (1 in       75.07 hands)
+   23 :    116,196    1.16%  (1 in       86.11 hands)
+   24 :    186,054    1.86%  (1 in       53.78 hands)
+   25 :    165,172    1.65%  (1 in       60.58 hands)
+   26 :    244,701    2.45%  (1 in       40.89 hands)
+   27 :    220,446    2.20%  (1 in       45.39 hands)
+   28 :    303,611    3.03%  (1 in       32.96 hands)
+   29 :    275,102    2.75%  (1 in       36.37 hands)
+   30 :    355,023    3.55%  (1 in       28.18 hands)
+   31 :    321,950    3.22%  (1 in       31.08 hands)
+   32 :    396,973    3.97%  (1 in       25.21 hands)
+   33 :    358,381    3.58%  (1 in       27.92 hands)
+   34 :    420,305    4.20%  (1 in       23.81 hands)
+   35 :    376,677    3.76%  (1 in       26.56 hands)
+   36 :    424,780    4.25%  (1 in       23.56 hands)
+   37 :    378,518    3.78%  (1 in       26.43 hands)
+   38 :    410,980    4.11%  (1 in       24.35 hands)
+   39 :    363,835    3.64%  (1 in       27.50 hands)
+   40 :    383,821    3.84%  (1 in       26.07 hands)
+   41 :    335,969    3.36%  (1 in       29.78 hands)
+   42 :    346,890    3.47%  (1 in       28.85 hands)
+   43 :    299,604    2.99%  (1 in       33.40 hands)
+   44 :    303,475    3.03%  (1 in       32.97 hands)
+   45 :    261,106    2.61%  (1 in       38.32 hands)
+   46 :    258,767    2.59%  (1 in       38.67 hands)
+   47 :    219,758    2.20%  (1 in       45.53 hands)
+   48 :    215,490    2.15%  (1 in       46.43 hands)
+   49 :    181,871    1.82%  (1 in       55.02 hands)
+   50 :    175,715    1.76%  (1 in       56.94 hands)
+   51 :    147,129    1.47%  (1 in       68.01 hands)
+   52 :    140,561    1.40%  (1 in       71.19 hands)
+   53 :    116,721    1.17%  (1 in       85.73 hands)
+   54 :    111,805    1.12%  (1 in       89.50 hands)
+   55 :     92,177    0.92%  (1 in      108.55 hands)
+   56 :     86,171    0.86%  (1 in      116.12 hands)
+   57 :     70,543    0.71%  (1 in      141.84 hands)
+   58 :     65,549    0.66%  (1 in      152.65 hands)
+   59 :     53,391    0.53%  (1 in      187.41 hands)
+   60 :     49,553    0.50%  (1 in      201.93 hands)
+   61 :     40,003    0.40%  (1 in      250.13 hands)
+   62 :     36,327    0.36%  (1 in      275.44 hands)
+   63 :     29,820    0.30%  (1 in      335.55 hands)
+   64 :     26,728    0.27%  (1 in      374.37 hands)
+   65 :     21,312    0.21%  (1 in      469.50 hands)
+   66 :     19,252    0.19%  (1 in      519.74 hands)
+   67 :     15,061    0.15%  (1 in      664.37 hands)
+   68 :     13,617    0.14%  (1 in      734.82 hands)
+   69 :     10,874    0.11%  (1 in      920.18 hands)
+   70 :      9,509    0.10%  (1 in     1052.28 hands)
+   71 :      7,548    0.08%  (1 in     1325.66 hands)
+   72 :      6,700    0.07%  (1 in     1493.45 hands)
+   73 :      5,049    0.05%  (1 in     1981.80 hands)
+   74 :      4,368    0.04%  (1 in     2290.77 hands)
+   75 :      3,437    0.03%  (1 in     2911.28 hands)
+   76 :      3,007    0.03%  (1 in     3327.60 hands)
+   77 :      2,289    0.02%  (1 in     4371.38 hands)
+   78 :      2,033    0.02%  (1 in     4921.83 hands)
+   79 :      1,474    0.01%  (1 in     6788.39 hands)
+   80 :      1,284    0.01%  (1 in     7792.90 hands)
+   81 :        981    0.01%  (1 in    10199.88 hands)
+   82 :        827    0.01%  (1 in    12099.26 hands)
+   83 :        672    0.01%  (1 in    14890.01 hands)
+   84 :        509    0.01%  (1 in    19658.32 hands)
+   85 :        389    0.00%  (1 in    25722.59 hands)
+   86 :        330    0.00%  (1 in    30321.47 hands)
+   87 :        231    0.00%  (1 in    43316.39 hands)
+   88 :        187    0.00%  (1 in    53508.48 hands)
+   89 :        123    0.00%  (1 in    81350.29 hands)
+   90 :        135    0.00%  (1 in    74119.16 hands)
+   91 :        107    0.00%  (1 in    93514.82 hands)
+   92 :         71    0.00%  (1 in   140930.79 hands)
+   93 :         74    0.00%  (1 in   135217.38 hands)
+   94 :         40    0.00%  (1 in   250152.15 hands)
+   95 :         34    0.00%  (1 in   294296.65 hands)
+   96 :         29    0.00%  (1 in   345037.45 hands)
+   97 :         11    0.00%  (1 in   909644.18 hands)
+   98 :         18    0.00%  (1 in   555893.67 hands)
+   99 :         12    0.00%  (1 in   833840.50 hands)
+  100 :          2    0.00%  (1 in  5003043.00 hands)
+  101 :          4    0.00%  (1 in  2501521.50 hands)
+  102 :          7    0.00%  (1 in  1429440.86 hands)
+  103 :          1    0.00%  (1 in 10006086.00 hands)
+  104 :          3    0.00%  (1 in  3335362.00 hands)
+  105 :          0    0.00%  (1 in    Infinity hands)
+  106 :          2    0.00%  (1 in  5003043.00 hands)
+  107 :          1    0.00%  (1 in 10006086.00 hands)
+  108 :          0    0.00%  (1 in    Infinity hands)
+  109 :          0    0.00%  (1 in    Infinity hands)
+  110 :          1    0.00%  (1 in 10006086.00 hands)
+  111 :          0    0.00%  (1 in    Infinity hands)
+  112 :          1    0.00%  (1 in 10006086.00 hands)
+  113 :          0    0.00%  (1 in    Infinity hands)
+  114 :          0    0.00%  (1 in    Infinity hands)
+  115 :          0    0.00%  (1 in    Infinity hands)
+  116 :          0    0.00%  (1 in    Infinity hands)
+  117 :          0    0.00%  (1 in    Infinity hands)
+  118 :          0    0.00%  (1 in    Infinity hands)
+  119 :          0    0.00%  (1 in    Infinity hands)
+  120 :          0    0.00%  (1 in    Infinity hands)
+  121 :          0    0.00%  (1 in    Infinity hands)
+  122 :          0    0.00%  (1 in    Infinity hands)
+  123 :          0    0.00%  (1 in    Infinity hands)
+  124 :          0    0.00%  (1 in    Infinity hands)
+  125 :          0    0.00%  (1 in    Infinity hands)
+  126 :          0    0.00%  (1 in    Infinity hands)
+  127 :          0    0.00%  (1 in    Infinity hands)
+  128 :          0    0.00%  (1 in    Infinity hands)
+  129 :          0    0.00%  (1 in    Infinity hands)
+  130 :          0    0.00%  (1 in    Infinity hands)
+  131 :          0    0.00%  (1 in    Infinity hands)
+  132 :          0    0.00%  (1 in    Infinity hands)
+  133 :          0    0.00%  (1 in    Infinity hands)
+  134 :          0    0.00%  (1 in    Infinity hands)
+  135 :          0    0.00%  (1 in    Infinity hands)
+  136 :          0    0.00%  (1 in    Infinity hands)
+  137 :          0    0.00%  (1 in    Infinity hands)
+  138 :          0    0.00%  (1 in    Infinity hands)
+  139 :          0    0.00%  (1 in    Infinity hands)
+  140 :          0    0.00%  (1 in    Infinity hands)
+  141 :          0    0.00%  (1 in    Infinity hands)
+  142 :          0    0.00%  (1 in    Infinity hands)
+  143 :          0    0.00%  (1 in    Infinity hands)
+  144 :          0    0.00%  (1 in    Infinity hands)
+  145 :          0    0.00%  (1 in    Infinity hands)
+  146 :          0    0.00%  (1 in    Infinity hands)
+  147 :          0    0.00%  (1 in    Infinity hands)
+  148 :          0    0.00%  (1 in    Infinity hands)
+  149 :          0    0.00%  (1 in    Infinity hands)
+  150 :          0    0.00%  (1 in    Infinity hands)
+  151 :          0    0.00%  (1 in    Infinity hands)
+  152 :          0    0.00%  (1 in    Infinity hands)
+  153 :          0    0.00%  (1 in    Infinity hands)
+  154 :          0    0.00%  (1 in    Infinity hands)
+  155 :          0    0.00%  (1 in    Infinity hands)
+  156 :          0    0.00%  (1 in    Infinity hands)
+  157 :          0    0.00%  (1 in    Infinity hands)
+  158 :          0    0.00%  (1 in    Infinity hands)
+  159 :          0    0.00%  (1 in    Infinity hands)
+  160 :          0    0.00%  (1 in    Infinity hands)
+  161 :          0    0.00%  (1 in    Infinity hands)
+  162 :          0    0.00%  (1 in    Infinity hands)
+  163 :          0    0.00%  (1 in    Infinity hands)
+  164 :          0    0.00%  (1 in    Infinity hands)
+  165 :          0    0.00%  (1 in    Infinity hands)
+  166 :          0    0.00%  (1 in    Infinity hands)
+  167 :          0    0.00%  (1 in    Infinity hands)
+  168 :          0    0.00%  (1 in    Infinity hands)
+  169 :          0    0.00%  (1 in    Infinity hands)
+  170 :          0    0.00%  (1 in    Infinity hands)

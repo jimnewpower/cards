@@ -22,7 +22,12 @@ public class GameView extends JFrame {
     public GameView(Random random) {
         setLayout(new BorderLayout());
         setTitle("Cribbage Squares");
-        setSize(600, 800);
+
+        double width = 500;
+        double height = (width / 5) * 6 / Constants.CARD_RATIO;
+        Dimension size = new Dimension((int) Math.round(width + 10), (int) Math.round(height + 20));
+        setSize(size);
+
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setIconImage(new ImageIcon(getClass().getResource("/images/png/poker_chip_100.png")).getImage());
 
@@ -157,23 +162,34 @@ public class GameView extends JFrame {
             drawScores(g);
         }
 
+        private int getStartingX() {
+            return this.getWidth() / 6 - (getBoardCardDimension().width / 2);
+        }
+
+        private int getStartingY() {
+            int cardHeight = getBoardCardDimension().height;
+            return cardHeight + cardHeight / 2;
+        }
+
         private void drawScores(Graphics g) {
             if (!isGridFull()) {
                 return;
             }
 
+            computeScores();
+
             Dimension cardDimension = getBoardCardDimension();
             int cardWidth = cardDimension.width;
             int cardHeight = cardDimension.height;
 
-            int x = this.getWidth() / 6;
-            int y = this.getHeight() / 5;
+            int x = getStartingX();
+            int y = getStartingY();
 
             FontMetrics metrics = g.getFontMetrics(getFont());
             int totalScore = 0;
 
             Font orig = getFont();
-            g.setFont(orig.deriveFont(18f));
+            g.setFont(orig.deriveFont(22f));
 
             for (int i = 0; i < 4; i++) {
                 int xx = x + (4 * (cardWidth + Constants.BOARD_CARD_SPACING * 2));
@@ -197,7 +213,7 @@ public class GameView extends JFrame {
                 g.drawString(score, xx + cardWidth / 2 - metrics.stringWidth(score) / 2, yy + 14);
             }
 
-            g.setFont(orig.deriveFont(Font.BOLD, 24f));
+            g.setFont(orig.deriveFont(Font.BOLD, 28f));
             g.setColor(Color.white);
             String score = String.valueOf(totalScore);
             int xx = x + (4 * (cardWidth + Constants.BOARD_CARD_SPACING * 2));
@@ -220,8 +236,8 @@ public class GameView extends JFrame {
             int cardWidth = cardDimension.width;
             int cardHeight = cardDimension.height;
 
-            int x = this.getWidth() / 6;
-            int y = this.getHeight() / 5 - cardHeight - Constants.BOARD_CARD_SPACING * 2;
+            int x = getStartingX();
+            int y = getStartingY() - cardHeight - spacing * 2;
 
             deckRectangle = new Rectangle(x, y, cardWidth, cardHeight);
 
@@ -245,8 +261,8 @@ public class GameView extends JFrame {
             int cardWidth = cardDimension.width;
             int cardHeight = cardDimension.height;
 
-            int x = this.getWidth() / 6 + spacing * 2 + cardWidth;
-            int y = this.getHeight() / 5 - cardHeight - Constants.BOARD_CARD_SPACING * 2;
+            int x = getStartingX() + spacing * 2 + cardWidth;
+            int y = getStartingY() - cardHeight - spacing * 2;
 
             ImageIcon icon = images.createScaledImageIconWithWhiteBackground(currentCard.getPngImagePath(), cardWidth, cardHeight);
             drawCard(g, icon, x, y, cardWidth, cardHeight);
@@ -257,8 +273,8 @@ public class GameView extends JFrame {
             int cardWidth = cardDimension.width;
             int cardHeight = cardDimension.height;
 
-            int x = this.getWidth() / 6;
-            int y = this.getHeight() / 5;
+            int x = getStartingX();
+            int y = getStartingY();
 
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
@@ -424,8 +440,13 @@ public class GameView extends JFrame {
         }
 
         private Dimension getBoardCardDimension() {
-            double cardWidth = this.getHeight() / 10;
-            double cardHeight = cardWidth / Constants.CARD_RATIO;
+            if (getWidth() < getHeight()) {
+                double cardWidth = getWidth() / 5.5;
+                double cardHeight = cardWidth / Constants.CARD_RATIO;
+                return new Dimension((int) Math.round(cardWidth), (int) Math.round(cardHeight));
+            }
+            double cardHeight = getHeight() / 6.5;
+            double cardWidth = cardHeight * Constants.CARD_RATIO;
             return new Dimension((int) Math.round(cardWidth), (int) Math.round(cardHeight));
         }
 

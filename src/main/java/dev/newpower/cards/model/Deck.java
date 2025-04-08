@@ -55,8 +55,9 @@ public class Deck {
         return Objects.hash(deck.toArray());
     }
 
-    public void shuffleSimple() {
+    public Deque<Card> shuffleSimple() {
         Collections.shuffle(deck, random);
+        return new LinkedList<>(deck);
     }
 
     public Deque<Card> shuffle(ShuffleStats stats) {
